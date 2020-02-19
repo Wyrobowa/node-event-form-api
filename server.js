@@ -8,12 +8,15 @@ const app = express();
 // Configs
 dotenv.config();
 
-// Models
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-// Routes
+// Models
+require('./models/Event');
 
 // DB Connection
 const mongoConnectOptions = {
+  useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
 };
@@ -24,6 +27,10 @@ mongoose
   .catch((error) => console.log(error));
 
 mongoose.connection.on('error', (err) => console.log(err));
+
+// Routes
+const eventRoute = require('./routes/eventRoute');
+app.use('/', eventRoute);
 
 // Start server
 app.set('port', process.env.PORT);

@@ -3,13 +3,15 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const app = express();
+const {
+  get, listen, set, use,
+} = express();
 
 // Configs
 dotenv.config();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+use(bodyParser.urlencoded({ extended: false }));
+use(bodyParser.json());
 
 // Models
 require('./models/Event');
@@ -18,7 +20,7 @@ require('./models/Event');
 const mongoConnectOptions = {
   useCreateIndex: true,
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 };
 
 mongoose
@@ -30,10 +32,11 @@ mongoose.connection.on('error', (err) => console.log(err));
 
 // Routes
 const eventRoute = require('./routes/eventRoute');
-app.use('/', eventRoute);
+
+use('/', eventRoute);
 
 // Start server
-app.set('port', process.env.PORT);
-app.listen(app.get('port'), () => {
-  console.log(`Listening on port ${app.get('port')}`);
+set('port', process.env.PORT);
+listen(get('port'), () => {
+  console.log(`Listening on port ${get('port')}`);
 });

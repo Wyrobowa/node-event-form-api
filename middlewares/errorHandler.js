@@ -5,10 +5,8 @@
  * @param fn
  * @returns {function(...[*]=)}
  */
-const catchErrors = fn => {
-  return function(req, res, next) {
-    fn(req, res, next).catch(next);
-  };
+const catchErrors = (fn) => function (req, res, next) {
+  fn(req, res, next).catch(next);
 };
 
 module.exports = {

@@ -1,10 +1,14 @@
 const express = require('express');
 
+// Controllers
 const {
   getEvents,
   getEvent,
   createEvent,
 } = require('../controllers/eventController');
+
+// Middlewares
+const { catchErrors } = require('../middlewares/errorHandler');
 
 const router = express.Router();
 
@@ -15,7 +19,7 @@ const router = express.Router();
  * @route {GET} /events
  * is asynchronous
  */
-router.get('/events', getEvents);
+router.get('/events', catchErrors(getEvents));
 
 /**
  * Get Event by id
@@ -24,7 +28,7 @@ router.get('/events', getEvents);
  * @route {GET} /event/:id
  * is asynchronous
  */
-router.get('/event/:id', getEvent);
+router.get('/event/:id', catchErrors(getEvent));
 
 /**
  * Create new Event
@@ -33,6 +37,6 @@ router.get('/event/:id', getEvent);
  * @route {POST} /event
  * is asynchronous
  */
-router.post('/event', createEvent);
+router.post('/event', catchErrors(createEvent));
 
 module.exports = router;

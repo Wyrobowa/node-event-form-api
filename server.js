@@ -1,17 +1,20 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const {
-  get, listen, set, use,
-} = express();
+const app = express();
 
 // Configs
 dotenv.config();
 
-use(bodyParser.urlencoded({ extended: false }));
-use(bodyParser.json());
+const { errorHandler, error404Handler } = require('./middlewares/errorHandlers');
+
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.json());
 
 // Models
 require('./models/Event');
@@ -33,10 +36,14 @@ mongoose.connection.on('error', (err) => console.log(err));
 // Routes
 const eventRoute = require('./routes/eventRoute');
 
-use('/', eventRoute);
+app.use('/', eventRoute);
+
+// Set up Error Handlers on App
+app.use(error404Handler);
+app.use(errorHandler);
 
 // Start server
-set('port', process.env.PORT);
-listen(get('port'), () => {
-  console.log(`Listening on port ${get('port')}`);
+app.set('port', process.env.PORT);
+app.listen(app.get('port'), () => {
+  console.log(`Listening on port ${app.get('port')}`);
 });

@@ -1,4 +1,5 @@
 const express = require('express');
+const { check, validationResult } = require('express-validator');
 
 // Controllers
 const {
@@ -8,7 +9,10 @@ const {
 } = require('../controllers/eventController');
 
 // Middlewares
-const { catchErrors } = require('../middlewares/errorHandler');
+const { catchErrors } = require('../middlewares/errorHandlers');
+
+// Validators
+const { emailValidation, eventDateValidation } = require('../validators/validator');
 
 const router = express.Router();
 
@@ -37,6 +41,6 @@ router.get('/event/:id', catchErrors(getEvent));
  * @route {POST} /event
  * is asynchronous
  */
-router.post('/event', catchErrors(createEvent));
+router.post('/event', [emailValidation], catchErrors(createEvent));
 
 module.exports = router;

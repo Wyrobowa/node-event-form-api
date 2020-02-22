@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const slug = require('slug');
 
-const EventSchema = new mongoose.Schema({
+const AttendeeSchema = new mongoose.Schema({
   slug: {
     type: String,
     lowercase: true,
@@ -27,7 +27,7 @@ const EventSchema = new mongoose.Schema({
   },
 });
 
-EventSchema.pre('save', async function (next) {
+AttendeeSchema.pre('save', async function (next) {
   this.slug = slug(this.email);
 
   const slugRegEx = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
@@ -38,4 +38,4 @@ EventSchema.pre('save', async function (next) {
   next();
 });
 
-module.exports = mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('Attendee', AttendeeSchema);

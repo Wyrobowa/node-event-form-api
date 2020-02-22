@@ -3,13 +3,17 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
-const app = express();
+// Middlewares
+const { errorHandler, error404Handler } = require('./middlewares/errorHandlers');
 
 // Configs
-dotenv.config();
+const app = express();
+app.disable('x-powered-by');
+app.use(cors());
 
-const { errorHandler, error404Handler } = require('./middlewares/errorHandlers');
+dotenv.config();
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +21,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 // Models
-require('./models/Event');
+require('./models/Attendee');
 
 // DB Connection
 const mongoConnectOptions = {
@@ -34,9 +38,9 @@ mongoose
 mongoose.connection.on('error', (err) => console.log(err));
 
 // Routes
-const eventRoute = require('./routes/eventRoute');
+const attendeeRoute = require('./routes/attendeeRoute');
 
-app.use('/', eventRoute);
+app.use('/', attendeeRoute);
 
 // Set up Error Handlers on App
 app.use(error404Handler);

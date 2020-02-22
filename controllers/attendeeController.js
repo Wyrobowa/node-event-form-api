@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { validationResult } = require('express-validator');
 
 // Models
-const Event = mongoose.model('Event');
+const Attendee = mongoose.model('Attendee');
 
 // Private
 const checkValidationResults = (req, res) => {
@@ -13,38 +13,40 @@ const checkValidationResults = (req, res) => {
 };
 
 // Public
-const getEvents = async (req, res) => {
-  const events = await Event.find().select('-_id -__v');
+const getAttendies = async (req, res) => {
+  const events = await Attendee.find().select('-_id -__v');
 
   res.json({
-    title: 'Events list',
+    title: 'Attendies list',
     data: events,
   });
 };
 
-const getEvent = async (req, res) => {
-  const event = await Event.findOne({ slug: req.params.id }).select('-_id -__v');
+const getAttendee = async (req, res) => {
+  const event = await Attendee.findOne({ slug: req.params.id }).select('-_id -__v');
 
   res.json({
-    title: 'Event',
+    title: 'Attendee',
     data: event.toJSON(),
   });
 };
 
-const createEvent = async (req, res) => {
+const createAttendee = async (req, res) => {
   checkValidationResults(req, res);
 
-  const event = new Event(req.body);
+  console.log(req.body);
+
+  const event = new Attendee(req.body);
   await event.save();
 
   res.json({
-    title: 'Event',
+    title: 'Attendee',
     data: event,
   });
 };
 
 module.exports = {
-  getEvents,
-  getEvent,
-  createEvent,
+  getAttendies,
+  getAttendee,
+  createAttendee,
 };

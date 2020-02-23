@@ -6,7 +6,6 @@ const AttendeeSchema = new mongoose.Schema({
     type: String,
     lowercase: true,
     unique: true,
-    required: true,
   },
   firstName: {
     type: String,
@@ -25,7 +24,6 @@ const AttendeeSchema = new mongoose.Schema({
   eventDate: {
     type: Date,
     required: true,
-    min: new Date(),
   },
 });
 

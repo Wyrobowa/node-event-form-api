@@ -47,7 +47,7 @@ app.use(error404Handler);
 app.use(errorHandler);
 
 // Start server
-app.set('port', process.env.PORT);
+app.set('port', process.env.NODE_ENV === 'testing' ? process.env.TEST_PORT : process.env.PORT);
 app.listen(app.get('port'), () => {
   console.log(`Listening on port ${app.get('port')}`);
 });

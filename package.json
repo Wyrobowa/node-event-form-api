@@ -7,7 +7,7 @@
     "start": "nodemon ./server.js",
     "lint": "npm run lint:js",
     "lint:js": "echo '=> linting js' && eslint . --ext .js",
-    "test": "mocha"
+    "test": "NODE_ENV=testing mocha"
   },
   "repository": {
     "type": "git",

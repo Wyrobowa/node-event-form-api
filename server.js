@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const mongoSanitize = require('express-mongo-sanitize');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -16,6 +17,7 @@ app.use(cors());
 dotenv.config();
 
 app.use(morgan('dev'));
+app.use(mongoSanitize());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -30,8 +32,9 @@ const mongoConnectOptions = {
   useUnifiedTopology: true,
 };
 
+const db = process.env.NODE_ENV === 'testing' ? process.env.TEST_DATABASE : process.env.DATABASE;
 mongoose
-  .connect(process.env.DATABASE, mongoConnectOptions)
+  .connect(db, mongoConnectOptions)
   .then(() => console.log('DB connected!'))
   .catch((error) => console.log(error));
 

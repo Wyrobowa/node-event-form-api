@@ -5,6 +5,8 @@ const AttendeeSchema = new mongoose.Schema({
   slug: {
     type: String,
     lowercase: true,
+    unique: true,
+    required: true,
   },
   firstName: {
     type: String,

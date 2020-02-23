@@ -22,19 +22,8 @@ const getAttendies = async (req, res) => {
   });
 };
 
-const getAttendee = async (req, res) => {
-  const event = await Attendee.findOne({ slug: req.params.id }).select('-_id -__v');
-
-  res.json({
-    title: 'Attendee',
-    data: event.toJSON(),
-  });
-};
-
 const createAttendee = async (req, res) => {
   checkValidationResults(req, res);
-
-  console.log(req.body);
 
   const event = new Attendee(req.body);
   await event.save();
@@ -47,6 +36,5 @@ const createAttendee = async (req, res) => {
 
 module.exports = {
   getAttendies,
-  getAttendee,
   createAttendee,
 };

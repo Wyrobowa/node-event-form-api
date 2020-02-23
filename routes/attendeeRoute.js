@@ -3,9 +3,8 @@ const express = require('express');
 // Controllers
 const {
   getAttendies,
-  getAttendee,
   createAttendee,
-} = require('../controllers/AttendeeController');
+} = require('../controllers/attendeeController');
 
 // Middlewares
 const { catchErrors } = require('../middlewares/errorHandlers');
@@ -23,15 +22,6 @@ const router = express.Router();
  * is asynchronous
  */
 router.get('/list', catchErrors(getAttendies));
-
-/**
- * Get Attendee by id
- *
- * @name getAttendee
- * @route {GET} /attendee/:id
- * is asynchronous
- */
-router.get('/Attendee/:id', catchErrors(getAttendee));
 
 /**
  * Create new Attendee
